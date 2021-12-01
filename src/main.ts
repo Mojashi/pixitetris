@@ -230,6 +230,19 @@ class BlockBreak extends BaseScene {
         this.ball.g.x += this.ball.v.x*delta
         this.ball.g.y += this.ball.v.y*delta
 
+        if(this.ball.g.x - this.ball.g.width/2 < 0) {
+            this.ball.g.x = this.ball.g.width/2 
+            this.ball.v.x *= -1
+        }
+        if(this.ball.g.x + this.ball.g.width/2 > 800) {
+            this.ball.g.x = 800 - this.ball.g.width/2 
+            this.ball.v.x *= -1
+        }
+        if(this.ball.g.y - this.ball.g.height/2 < 0) {
+            this.ball.g.y = this.ball.g.height/2 
+            this.ball.v.y *= -1
+        }
+
         if(this.ball.g.x < -20 || this.ball.g.y < -20 || this.ball.g.x > 820 || this.ball.g.y > 620) {
             this.gameover = true
 
@@ -268,7 +281,7 @@ class BlockBreak extends BaseScene {
             }
         }
 
-        const lines = this.dCanvas.getLines().concat(this.walls)
+        const lines = this.dCanvas.getLines()
         for(var i = 0; lines.length > i; i++) {
             if(lines[i].g.destroyed) continue
             const vec=lineHitBall(lines[i], this.ball)
@@ -277,6 +290,7 @@ class BlockBreak extends BaseScene {
                 break
             }
         }
+
 
         if(rad !== null){
             const len = this.ball.v.x * Math.cos(rad) + this.ball.v.y * Math.sin(rad)
