@@ -199,7 +199,7 @@ class BlockBreak extends BaseScene {
 
         const pc = new PIXI.Container()
         this.container.addChild(pc)
-        pc.addChild(new PIXI.Graphics().beginFill(0,0).drawRect(0,0,800,600).endFill())
+        pc.addChild(new PIXI.Graphics().beginFill(0xffffff,0.2).drawRect(0,300,800,300).endFill())
         this.dCanvas = new DrawableCanvas(pc)
 
         this.ball = {
@@ -329,14 +329,14 @@ class DrawableCanvas {
         this.container = container
         var line: Line|null = null
         
-        this.inkbar = new PIXI.Graphics().lineStyle(5, 0xffffff).moveTo(0, this.container.height-5).lineTo(this.ink, this.container.height-5)
+        this.inkbar = new PIXI.Graphics().lineStyle(5, 0xffffff).moveTo(0,300).lineTo(this.ink, 300)
         this.container.addChild(this.inkbar)
         
 
         container.interactive=true
-        container.addChild(
-            new PIXI.Graphics().beginFill(0x8bc5ff,0.00001).drawRect(0,0, container.width,container.height).endFill()
-        )
+        // container.addChild(
+        //     new PIXI.Graphics().beginFill(0x8bc5ff,0.00001).drawRect(0,0, container.width,container.height).endFill()
+        // )
         container.on("mousedown", (e:PIXI.InteractionEvent)=>{
             this.mouseDown=true
             line = {
@@ -351,7 +351,8 @@ class DrawableCanvas {
             }
             this.container.addChild(line.g)
         })
-        this.container.on("mouseup", (e:PIXI.InteractionEvent)=>{
+
+        const onMouseUp = (e:PIXI.InteractionEvent)=>{
             if(line == null) return
             if(line.points.length > 0){
                 line.g.destroy()
@@ -368,12 +369,21 @@ class DrawableCanvas {
             }
             line = null
             this.mouseDown=false
-        })
+        }
+
+        this.container.on("mouseup", onMouseUp)
         this.container.on("mousemove", (e:PIXI.InteractionEvent)=>{
             if(line == null) return
             if(this.mouseDown){
                 const from = line.points[line.points.length-1]
                 const to = {x:e.data.global.x,y:e.data.global.y}
+                if(to.x < 0 || to.y < 300 || to.x > 800 || to.y > 600) {
+                    onMouseUp(e)
+                    return
+                }
+
+                console.log(to.y)
+
                 const inkUsage = Math.sqrt((from.x-to.x)*(from.x-to.x)+(from.y-to.y)*(from.y-to.y))
                 if(inkUsage > this.ink) return
                 this.ink -= inkUsage
