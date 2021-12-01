@@ -8,12 +8,12 @@ use_mariadb: false
 
 
 # relative path to document root (default: .)
-work_dir: "/app"
+work_dir: "/usr/src/app"
 
 # <<< runtime only setting >>>
 
 # docker entrypoint command (default: "cat")
-entrypoint: "npx http-server dist --port 8080 --yes"
+entrypoint: "npx http-server dist --port 8080"
 
 # which port to proxy via http(80) (default: null)
 http_proxy: 8080
