@@ -13,7 +13,7 @@ work_dir: "/app"
 # <<< runtime only setting >>>
 
 # docker entrypoint command (default: "cat")
-entrypoint: "npx http-server dist --port 8080"
+entrypoint: "npx http-server dist --port 8080 --yes"
 
 # which port to proxy via http(80) (default: null)
 http_proxy: 8080
