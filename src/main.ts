@@ -274,8 +274,8 @@ class BlockBreak extends BaseScene {
                 rad = vec
                 this.blocks[i].g.visible=false
                 this.blocks.splice(i,1)
-                this.ball.v.x *= 1.1
-                this.ball.v.y *= 1.1
+                this.ball.v.x += 0.2 * this.ball.v.x/Math.abs(this.ball.v.x)
+                this.ball.v.y += 0.2 * this.ball.v.y/Math.abs(this.ball.v.y)
                 this.point++
                 break
             }
